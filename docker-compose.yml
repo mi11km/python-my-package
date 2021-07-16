@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  app:
+    build: .
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - MYSQL_DBNAME=python
+      - MYSQL_USER=worker
+      - MYSQL_PASS=dummy
+    command: poetry run python src/main.py
+    depends_on:
+      - db
+
+  db:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=python
+      - MYSQL_USER=worker
+      - MYSQL_PASSWORD=dummy
+    ports:
+      - 3306:3306
