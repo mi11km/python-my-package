@@ -8,7 +8,7 @@ services:
       - MYSQL_PORT=3306
       - MYSQL_DBNAME=python
       - MYSQL_USER=worker
-      - MYSQL_PASS=dummy
+      - MYSQL_PASSWORD=dummy
     command: poetry run python src/main.py
     depends_on:
       - db
