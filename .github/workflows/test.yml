@@ -1,0 +1,14 @@
+name: Python application
+
+on: [ push, pull_request ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: docker
+    steps:
+      - uses: actions/checkout@v2
+      - name: build docker image
+        run: docker build -t app .
+      - name: test
+        run: docker run app bash -c 'poetry run pytest'
