@@ -1,4 +1,4 @@
-name: Python application
+name: Test Python application
 
 on: [ push ]
 
@@ -11,4 +11,4 @@ jobs:
       - name: build docker image
         run: docker build -t app .
       - name: test
-        run: docker run app bash -c 'poetry run pytest'
+        run: docker run app bash -c 'pytest tests -v'
