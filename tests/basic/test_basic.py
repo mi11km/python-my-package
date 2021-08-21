@@ -45,3 +45,14 @@ def test_print_hello(capsys):
     assert out == (
         'Hello, world!\n'
     )
+
+
+def test_person():
+    mike = basic.Person("Mike")
+    assert mike.name == "Mike"
+    mike.name = "Mr.Mike"
+    assert mike.name == "Mr.Mike"
+    assert mike.kind == "Primates"
+    mike.kind = "Monkey"
+    assert mike.kind == "Monkey"
+    assert basic.Person.kind == "Primates"  # インスタンスの属性を変更してもクラスには影響なし
