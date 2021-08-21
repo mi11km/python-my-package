@@ -128,6 +128,18 @@ class AnimalClass:
 # 名前付きタプル：上記とほぼ一緒の意味
 AnimalClassTuple = namedtuple('AnimalClassTuple', 'name habitat teeth')
 
+
+class OopsException(Exception):
+    """ 独自例外 """
+    pass
+
+
+#  例外処理
+try:
+    raise OopsException('uuuuu')
+except OopsException as err:
+    print(err)
+
 if __name__ == "__main__":
     import sys
 
