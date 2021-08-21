@@ -9,7 +9,9 @@ services:
       - MYSQL_DBNAME=python
       - MYSQL_USER=worker
       - MYSQL_PASS=dummy
-    command: poetry run python src/main.py
+    command: python src/main.py
+    volumes:
+      - ./:/app
     depends_on:
       - db
 
