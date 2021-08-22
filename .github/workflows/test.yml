@@ -2,13 +2,35 @@ name: Test Python application
 
 on: [ push ]
 
+env:
+  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+  SLACK_USERNAME: github.com/mi11km/python-my-package
+  SLACK_CHANNEL: github-actions通知
+  SLACK_ICON_EMOJI: ':python:'
+
 jobs:
   test:
     runs-on: ubuntu-latest
     container: docker
     steps:
       - uses: actions/checkout@v2
-      - name: build docker image
+
+      - name: Build Docker Image
         run: docker build -t app .
-      - name: test
+
+      - name: Test
         run: docker run app bash -c 'pytest tests -v'
+
+      - name: Slack Notification on Success
+        if: success()
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_TITLE: Test Success
+          SLACK_COLOR: good
+
+      - name: Slack Notification on Failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_TITLE: Test Failure
+          SLACK_COLOR: danger
