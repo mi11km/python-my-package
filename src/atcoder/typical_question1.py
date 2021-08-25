@@ -20,5 +20,40 @@ def yokan_party():
     print(left)
 
 
+def is_close(s: str) -> str:
+    """ s が()でちゃんと閉じれてるかどうか調べる関数
+        s: 00101などのビット列。 0: (, 1: )
+    """
+    if s.count('0') != s.count('1'):
+        return ''
+    is_ok = 0
+    string = ""
+    for parentheses in s:
+        if parentheses == '0':
+            string += '('
+            is_ok += 1
+        elif parentheses == '1':
+            string += ')'
+            is_ok -= 1
+        if is_ok < 0:
+            return ''
+    if is_ok:
+        return ''
+    return string
+
+
+def encyclopedia_of_parentheses():
+    n = int(input())
+    if n % 2 != 0:
+        return
+    bits = 0b0
+    for _ in range(2 ** n):
+        bits_str = str(bin(bits))[2:]
+        bits_str = '0' * (n - len(bits_str)) + bits_str
+        if parentheses := is_close(bits_str):
+            print(parentheses)
+        bits += 0b1
+
+
 if __name__ == '__main__':
-    yokan_party()
+    encyclopedia_of_parentheses()
