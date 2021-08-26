@@ -20,7 +20,7 @@ def yokan_party():
     print(left)
 
 
-def is_close(s: str) -> str:
+def __is_close(s: str) -> str:
     """ s が()でちゃんと閉じれてるかどうか調べる関数
         s: 00101などのビット列。 0: (, 1: )
     """
@@ -50,10 +50,14 @@ def encyclopedia_of_parentheses():
     for _ in range(2 ** n):
         bits_str = str(bin(bits))[2:]
         bits_str = '0' * (n - len(bits_str)) + bits_str
-        if parentheses := is_close(bits_str):
+        if parentheses := __is_close(bits_str):
             print(parentheses)
         bits += 0b1
 
 
+def longest_circular_road():
+    n = int(input())
+    
+
 if __name__ == '__main__':
-    encyclopedia_of_parentheses()
+    longest_circular_road()
