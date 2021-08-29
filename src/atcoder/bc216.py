@@ -8,7 +8,7 @@ def d():
 
     tops = []
     for color in tutu:
-        if not color[1][0] in tops
+        if not color[1][0] in tops:
             tops.append(color[1][0])
         else:
             pass
