@@ -55,9 +55,41 @@ def encyclopedia_of_parentheses():
         bits += 0b1
 
 
+# 何故か実行時エラーになる 再帰数の制限？
+def __depth_first_search(road: dict[int, list[int]], root: int, counter: int, result: list):
+    if not root in road.keys():
+        if result[0] < counter:
+            result[0] = counter
+    else:
+        counter += 1
+        next_road = road.copy()
+        del next_road[root]
+        for next_city in road[root]:
+            __depth_first_search(next_road, next_city, counter, result)
+
+
+from collections import deque, defaultdict, Counter
+import sys
+
+input = sys.stdin.readline
+
+
 def longest_circular_road():
     n = int(input())
-    
+    roads: dict[int, list[int]] = {}
+    for city in range(1, n + 1):
+        roads[city] = []
+    for _ in range(n - 1):
+        a, b = map(int, input().split())
+        roads[a].append(b)
+        roads[b].append(a)
+    # result = [0]
+    # for root in roads.keys():
+    #     if len(roads[root]) == 1:
+    #         __depth_first_search(roads, root, 0, result)
+    # print(result[0])
+    stack = deque([0, -1, 0])
+
 
 if __name__ == '__main__':
     longest_circular_road()
