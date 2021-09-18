@@ -13,4 +13,10 @@ def b():
     print("".join([words[i - 1] for i in p]))
 
 
-b()
+def c():
+    n = int(input())
+    s = [list(map(str, input().split())) for _ in range(n)]
+    t = [list(map(str, input().split())) for _ in range(n)]
+
+
+c()
