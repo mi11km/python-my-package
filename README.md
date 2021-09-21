@@ -9,3 +9,8 @@
 ```shell
 docker-compose run --rm app pytest tests -v 
 ```
+
+### add package
+```shell
+docker-compose run --rm app poetry add <package_name>
+```
