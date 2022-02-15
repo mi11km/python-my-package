@@ -35,8 +35,8 @@ class SearchQuestion:
     def is_end_node(self, node: str) -> bool:
         return node == self.end_node()
 
-    def next_nodes(self, point: str) -> Dict[str, int]:
-        return self.__route[point]
+    def next_nodes(self, node: str) -> Dict[str, int]:
+        return self.__route[node]
 
     def h(self, node: str) -> int:
         """ ゴールへの近さ """
