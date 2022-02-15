@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 
 
 class SearchQuestion:
@@ -21,8 +21,10 @@ class SearchQuestion:
             "e": 1,
             "G": 0,
         }
-        self.__path_cost = 0
-        self.__passed_path = []
+        self.__passed_paths_of_frontier: Dict[str, List[str]] = {
+            "a": ["S", "a"],
+            "b": ["S", "b"],
+        }
 
     @staticmethod
     def start_node() -> str:
@@ -32,67 +34,94 @@ class SearchQuestion:
     def end_node() -> str:
         return "G"
 
-    def is_end_node(self, node: str) -> bool:
-        return node == self.end_node()
-
     def next_nodes(self, node: str) -> Dict[str, int]:
         return self.__route[node]
 
-    def h(self, node: str) -> int:
-        """ ゴールへの近さ """
+    def h(self, node: str) -> float:
+        """ nodeからゴールまでの最短経路の近似値 """
         try:
             return self.__approximate_value_of_shortest_path[node]
         except Exception:
-            raise KeyError("unknown key error")
+            raise KeyError("unknown node")
 
-    def g(self, node: str = None):
-        """ 出発点からnodeまでの経路長 """
+    def g(self, node: str = None) -> int:
+        """ 出発点からnodeまでの(判明した)経路長 """
+        try:
+            passed_path = self.__passed_paths_of_frontier[node]
+        except KeyError:
+            raise KeyError("invalid node, not in frontiers.")
         path_length = 0
-        for i in range(len(self.__passed_path) - 1):
-            path_length += self.__route[self.__passed_path[i]][self.__passed_path[i+1]]
-        if node is not None:
-            return path_length + self.__route[self.__passed_path[-1]][node]
+        for i in range(len(passed_path) - 1):
+            path_length += self.__route[passed_path[i]][passed_path[i + 1]]
         return path_length
 
-    def greed_search(self):
-        current_node = self.start_node()
-        while not self.is_end_node(current_node):
-            if current_node in self.__passed_path:
-                raise Exception("Loop path error")
-            self.__passed_path.append(current_node)
-            next_nodes = {node: self.h(node) for node in self.next_nodes(current_node)}
-            current_node = min(next_nodes, key=next_nodes.get)  # h(n)が最小のノードに移動
-        self.__passed_path.append(self.end_node())
-        self.__path_cost = self.g()
-
-    def a_star_algorithm_search(self):
-        current_node = self.start_node()
-        while not self.is_end_node(current_node):
-            if current_node in self.__passed_path:
-                raise Exception("Loop path error")
-            self.__passed_path.append(current_node)
-            next_nodes = {node: self.h(node) + self.g(node) for node in self.next_nodes(current_node)}
-            print(current_node, next_nodes)
-            current_node = min(next_nodes, key=next_nodes.get)  # h(n)が最小のノードに移動
-        self.__passed_path.append(self.end_node())
-        self.__path_cost = self.g()
+    def result_path(self):
+        return self.__passed_paths_of_frontier[self.end_node()]
 
     def print_result(self):
-        print("path: ", self.__passed_path)
-        print("cost: ", self.__path_cost)
+        print("path: ", self.__passed_paths_of_frontier[self.end_node()])
+        print("cost: ", self.g(self.end_node()))
 
     def reset_result(self):
-        self.__passed_path = []
-        self.__path_cost = 0
+        self.__passed_paths_of_frontier: Dict[str, List[str]] = {
+            "a": ["S", "a"],
+            "b": ["S", "b"],
+        }
+
+    def greed_search(self):
+        frontiers: Dict[str, int] = {frontier: self.h(frontier) for frontier in self.next_nodes(self.start_node())}
+        while not self.end_node() in frontiers:
+            selected_node = min(frontiers, key=frontiers.get)
+            self.__passed_paths_of_frontier.update({
+                node: self.__passed_paths_of_frontier[selected_node].copy() + [node]
+                for node in self.__route[selected_node] if not (node in self.__passed_paths_of_frontier[selected_node])
+            })
+            frontiers.update({
+                node: self.h(node) for node in self.next_nodes(selected_node)
+                if not (node in self.__passed_paths_of_frontier[selected_node])
+            })
+            del frontiers[selected_node]
+            del self.__passed_paths_of_frontier[selected_node]
+
+    def a_star_algorithm_search(self):
+        frontiers: Dict[str, int] = {
+            frontier: self.h(frontier) + self.g(frontier) for frontier in self.next_nodes(self.start_node())}
+        while not self.end_node() in frontiers:
+            selected_node = min(frontiers, key=frontiers.get)
+            self.__passed_paths_of_frontier.update({
+                node: self.__passed_paths_of_frontier[selected_node].copy() + [node]
+                for node in self.__route[selected_node] if not (node in self.__passed_paths_of_frontier[selected_node])
+            })
+            frontiers.update({
+                node: self.h(node) + self.g(node) for node in self.next_nodes(selected_node)
+                if not (node in self.__passed_paths_of_frontier[selected_node])
+            })
+            del frontiers[selected_node]
+            del self.__passed_paths_of_frontier[selected_node]
+
+    def update_approximate_value_of_shortest_path(self, value: float):
+        """ h(a)の値を更新する関数 """
+        self.__approximate_value_of_shortest_path["a"] = value
 
 
 if __name__ == '__main__':
     q = SearchQuestion()
 
     q.greed_search()
-    q.print_result()
+    q.print_result()  # (1)の答え
 
     q.reset_result()
 
     q.a_star_algorithm_search()
-    q.print_result()
+    q.print_result()  # (2)の答え
+
+    collect_path = q.result_path().copy()
+    found_path = q.result_path().copy()
+    threshold = 8
+    while collect_path == found_path:
+        threshold += 0.00001
+        q.update_approximate_value_of_shortest_path(threshold)
+        q.reset_result()
+        q.a_star_algorithm_search()
+        found_path = q.result_path().copy()
+    print(threshold)  # (3)の答え
