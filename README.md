@@ -10,18 +10,23 @@
 make setup-local
 ```
 
+### run
+```shell
+make run-local
+```
+
 ### test
 ```shell
 make test-local
 ```
 
 ## Development in container
-### test
+### run
 ```shell
-docker-compose run --rm app pytest tests -v 
+make run-container
 ```
 
-### add package
+### test
 ```shell
-docker-compose run --rm app poetry add <package_name>
+make test-container
 ```
