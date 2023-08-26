@@ -5,7 +5,7 @@ import os
 # CSV: 区切り文字によってフィールドに区切られているファイル形式。スプレッドシートやDBとのデータ交換形式としてよく使われる。
 class CSVBasic:
 
-    def __init__(self, file_store_path: str = "./assets/"):
+    def __init__(self, file_store_path: str = "./"):
         self.__file_path = file_store_path
 
     @property
@@ -28,13 +28,10 @@ class CSVBasic:
                 writer.writeheader()
                 writer.writerows(data)
 
-    def read_csv_file(self, filename: str, as_dict: bool = False) -> list:
+    def read_csv_file(self, filename: str) -> list[list[str]]:
         self.__validation(filename)
         with open(self.__file_path + filename, "r") as file:
-            if as_dict:
-                data = [row for row in csv.DictReader(file)]
-            else:
-                data = [row for row in csv.reader(file)]
+            data = [row for row in csv.reader(file)]
         return data
 
     @staticmethod
@@ -47,34 +44,9 @@ class CSVBasic:
             ["Ernst", "Blofeld"],
         ]
 
-    @staticmethod
-    def dummy_dict_data() -> list[dict]:
-        return [
-            {
-                "first": "Doctor",
-                "second": "No"
-            },
-            {
-                "first": "Rosa",
-                "second": "Klebb"
-            },
-            {
-                "first": "Mister",
-                "second": "Big"
-            },
-            {
-                "first": "Auric",
-                "second": "GoldFinger"
-            },
-            {
-                "first": "Ernst",
-                "second": "Blofeld"
-            },
-        ]
-
 
 if __name__ == "__main__":
     c = CSVBasic()
-    c.write_csv_file("test.csv", c.dummy_dict_data())
+    c.write_csv_file("test.csv", c.dummy_list_data())
     print(c.read_csv_file("test.csv"))
-    print(c.read_csv_file("test.csv", as_dict=True))
+    print(c.read_csv_file("test.csv"))

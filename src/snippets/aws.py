@@ -35,7 +35,6 @@ for name in function_names:
             function_detail["Code"]["Location"],
         ]
         subprocess.call(download_cmd)
-        unzip_cmd = []
         # code_info = function_detail["Code"]
         # code_src_data[name] = code_info
 

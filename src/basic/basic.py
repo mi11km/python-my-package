@@ -1,6 +1,6 @@
 from collections import namedtuple
 from dataclasses import dataclass
-from typing import Any, Generator
+from typing import Any, Callable, Generator
 
 
 def is_prime(n: int) -> bool:
@@ -36,7 +36,7 @@ def is_tweeted(string: str) -> str:
         return f"Went over by {abs(diff)}"
 
 
-def document_it(func: callable) -> callable:
+def document_it(func: Callable) -> Callable:
     """ "デコレータの例"""
 
     def new_func(*args, **kwargs):
@@ -50,7 +50,7 @@ def document_it(func: callable) -> callable:
     return new_func
 
 
-def square_it(func: callable) -> callable:
+def square_it(func: Callable) -> Callable:
     """ "デコレータの例2"""
 
     def new_func(*args, **kwargs):

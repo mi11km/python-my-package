@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Generator, List, Tuple
 
 import pytest
 
@@ -20,7 +20,7 @@ def test_is_prime(number: int, expected: bool):
 
 
 @pytest.fixture(scope="function")
-def txt(tmpdir) -> str:
+def txt(tmpdir) -> Generator[str, None, None]:
     """テスト用のテキストファイル生成 fixture"""
     # 前処理
     tmp_file = tmpdir.join("test.txt")
@@ -35,7 +35,7 @@ def txt(tmpdir) -> str:
 
 
 @pytest.fixture(scope="function")
-def txt_and_list(txt) -> Tuple[str, List[int]]:
+def txt_and_list(txt) -> Generator[Tuple[str, List[int]], None, None]:
     yield txt, [1, 2, 2, 5, 6, 9]
 
 
