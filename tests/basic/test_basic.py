@@ -46,7 +46,7 @@ def test_load_numbers_sorted(txt_and_list):
 def test_print_hello(capsys):
     basic.print_hello()
     out, _ = capsys.readouterr()
-    assert out == ("Hello, world!\n")
+    assert out == "Hello, world!\n"
 
 
 def test_person():
