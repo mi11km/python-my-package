@@ -1,10 +1,21 @@
-# python playground
+# Python playground
 個人的にPythonで色々書いたやつを記録。
 
-## requirements
-- poetry
-- docker
+## Requirements
+- `asdf` or `docker`
 
+## Development in local computer
+### setup
+```shell
+make setup-local
+```
+
+### test
+```shell
+make test-local
+```
+
+## Development in container
 ### test
 ```shell
 docker-compose run --rm app pytest tests -v 

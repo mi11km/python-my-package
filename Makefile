@@ -5,10 +5,15 @@ FORMAT_COMMAND=black .
 LINT_COMMAND=flake8 --ignore=E501 src/ tests/
 SORT_COMMAND=isort .
 
-run:
+setup-local:
+	asdf install
+	poetry config virtualenvs.in-project true
+	poetry install
+
+run-local:
 	poetry run python -m src
 
-test:
+test-local:
 	poetry run ${TEST_COMMAND} && \
 	poetry run ${FORMAT_COMMAND} && \
 	poetry run ${LINT_COMMAND} && \
