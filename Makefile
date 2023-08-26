@@ -1,4 +1,5 @@
 PORT=8080
+CONTAINER_TAG=python-app
 
 FORMAT_COMMAND=yapf -i -r src/ tests/
 SORT_COMMAND=isort .
@@ -21,18 +22,12 @@ test-local:
 	poetry run ${LINT_COMMAND} && echo "===== Finish Lint =====\n"
 
 
-
 build-container:
-	docker build -t app . && docker image prune --force
+	docker build -t ${CONTAINER_TAG} . && docker image prune --force
 
 run-container: build-container
-	docker run \
-		-v $(shell pwd):/src \
-		-p ${PORT}:${PORT} \
-		--rm api
+	docker run --rm ${CONTAINER_TAG}
 
-test-in-container: build-container
-	docker run \
-		-v $(shell pwd):/api \
-		--rm api \
-		bash -c '${TEST_COMMAND} && ${FORMAT_COMMAND} && ${LINT_COMMAND} && ${SORT_COMMAND}'
+test-container: build-container
+	docker run --rm ${CONTAINER_TAG} \
+		bash -c 'poetry install && ${TEST_COMMAND} && ${FORMAT_COMMAND} && ${LINT_COMMAND} && ${SORT_COMMAND}'

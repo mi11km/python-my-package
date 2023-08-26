@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.11.5-slim
 
 WORKDIR /app
 
@@ -10,11 +10,11 @@ RUN set -ex \
 ENV PATH /root/.local/bin:$PATH
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
-COPY poetry.lock /app
-COPY pyproject.toml /app
+COPY poetry.lock .
+COPY pyproject.toml .
 
 RUN poetry config virtualenvs.create false
-RUN poetry update
+RUN poetry install --only-root
 
-COPY . /app
+COPY . .
 CMD ["python", "-m", "src"]

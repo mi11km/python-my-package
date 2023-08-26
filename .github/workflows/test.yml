@@ -19,7 +19,7 @@ jobs:
         run: docker build -t app .
 
       - name: Test
-        run: docker run app bash -c 'pytest tests -v'
+        run: docker run app bash -c 'poetry install && pytest tests -v'
 
       - name: Slack Notification on Success
         if: success()
