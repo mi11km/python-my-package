@@ -9,7 +9,7 @@ services:
 #      - MYSQL_DBNAME=python
 #      - MYSQL_USER=worker
 #      - MYSQL_PASS=dummy
-    command: python src/main.py
+    command: python src/__main__.py
     volumes:
       - ./:/app
 #    depends_on:

@@ -1,4 +1,4 @@
-FROM python:3.10.7-slim
+FROM python:3.10-slim
 
 WORKDIR /app
 
@@ -17,3 +17,4 @@ RUN poetry config virtualenvs.create false
 RUN poetry update
 
 COPY . /app
+CMD ["python", "-m", "src"]
