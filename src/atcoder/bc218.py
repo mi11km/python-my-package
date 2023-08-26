@@ -8,7 +8,9 @@ def a():
 
 
 def b():
-    words = {index: char for index, char in enumerate(list("abcdefghijklmnopqrstuvwxyz"))}
+    words = {
+        index: char for index, char in enumerate(list("abcdefghijklmnopqrstuvwxyz"))
+    }
     p = list(map(int, input().split()))
     print("".join([words[i - 1] for i in p]))
 

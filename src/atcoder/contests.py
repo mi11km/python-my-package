@@ -7,7 +7,7 @@ def a():
     elif 70 <= x < 90:
         print(90 - x)
     else:
-        print('expert')
+        print("expert")
 
 
 def b():

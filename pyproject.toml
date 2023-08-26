@@ -1,13 +1,20 @@
 [tool.poetry]
 name = "python-my-package"
 version = "0.1.0"
-description = ""
+description = "Python my packages"
+license = "MIT"
 authors = ["mi11km <mi11km.program@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
 
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.0"
+black = "^23.7.0"
+flake8 = "^6.1.0"
+isort = "^5.12.0"
 
 [build-system]
 requires = ["poetry-core"]

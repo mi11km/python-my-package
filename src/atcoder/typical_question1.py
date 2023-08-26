@@ -21,24 +21,24 @@ def yokan_party():
 
 
 def __is_close(s: str) -> str:
-    """ s が()でちゃんと閉じれてるかどうか調べる関数
-        s: 00101などのビット列。 0: (, 1: )
+    """s が()でちゃんと閉じれてるかどうか調べる関数
+    s: 00101などのビット列。 0: (, 1: )
     """
-    if s.count('0') != s.count('1'):
-        return ''
+    if s.count("0") != s.count("1"):
+        return ""
     is_ok = 0
     string = ""
     for parentheses in s:
-        if parentheses == '0':
-            string += '('
+        if parentheses == "0":
+            string += "("
             is_ok += 1
-        elif parentheses == '1':
-            string += ')'
+        elif parentheses == "1":
+            string += ")"
             is_ok -= 1
         if is_ok < 0:
-            return ''
+            return ""
     if is_ok:
-        return ''
+        return ""
     return string
 
 
@@ -47,16 +47,18 @@ def encyclopedia_of_parentheses():
     if n % 2 != 0:
         return
     bits = 0b0
-    for _ in range(2 ** n):
+    for _ in range(2**n):
         bits_str = str(bin(bits))[2:]
-        bits_str = '0' * (n - len(bits_str)) + bits_str
+        bits_str = "0" * (n - len(bits_str)) + bits_str
         if parentheses := __is_close(bits_str):
             print(parentheses)
         bits += 0b1
 
 
 # 何故か実行時エラーになる 再帰数の制限？
-def __depth_first_search(road: dict[int, list[int]], root: int, counter: int, result: list):
+def __depth_first_search(
+    road: dict[int, list[int]], root: int, counter: int, result: list
+):
     if not root in road.keys():
         if result[0] < counter:
             result[0] = counter
@@ -91,5 +93,5 @@ def longest_circular_road():
     stack = deque([0, -1, 0])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     longest_circular_road()

@@ -14,6 +14,7 @@ def d():
             pass
             # 書いてる途中で終了
 
+
 def c():
     n = int(input())
     strings = []
@@ -44,6 +45,7 @@ def c():
     #         balls *= 2
     # print(balls)
 
+
 def b():
     n = int(input())
     names = []
@@ -56,12 +58,13 @@ def b():
     else:
         print("No")
 
+
 def a():
     xy = input()
     x, y = xy[:-2], int(xy[-1])
     if 0 <= y <= 2:
-        print(x + '-')
+        print(x + "-")
     elif 3 <= y <= 6:
         print(x)
     else:
-        print(x + '+')
+        print(x + "+")

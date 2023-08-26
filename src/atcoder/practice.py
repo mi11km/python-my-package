@@ -4,7 +4,7 @@
 
 
 def factorization(number: int) -> int:
-    """ number を素因数分解し約数の個数"""
+    """number を素因数分解し約数の個数"""
     result = 0
     for num in range(1, number + 1):
         if number % num == 0:
@@ -22,5 +22,5 @@ def b_105():
     print(result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     b_105()

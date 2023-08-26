@@ -10,7 +10,7 @@ class SearchQuestion:
             "c": {"a": 5, "b": 6, "G": 5},
             "d": {"a": 4, "G": 8},
             "e": {"b": 7, "G": 7},
-            "G": {"c": 5, "d": 8, "e": 7}
+            "G": {"c": 5, "d": 8, "e": 7},
         }
         self.__approximate_value_of_shortest_path = {
             "S": 11,
@@ -38,14 +38,14 @@ class SearchQuestion:
         return self.__route[node]
 
     def h(self, node: str) -> float:
-        """ nodeからゴールまでの最短経路の近似値 """
+        """nodeからゴールまでの最短経路の近似値"""
         try:
             return self.__approximate_value_of_shortest_path[node]
         except Exception:
             raise KeyError("unknown node")
 
     def g(self, node: str = None) -> int:
-        """ 出発点からnodeまでの(判明した)経路長 """
+        """出発点からnodeまでの(判明した)経路長"""
         try:
             passed_path = self.__passed_paths_of_frontier[node]
         except KeyError:
@@ -69,42 +69,59 @@ class SearchQuestion:
         }
 
     def greed_search(self):
-        frontiers: Dict[str, int] = {frontier: self.h(frontier) for frontier in self.next_nodes(self.start_node())}
+        frontiers: Dict[str, int] = {
+            frontier: self.h(frontier)
+            for frontier in self.next_nodes(self.start_node())
+        }
         while not self.end_node() in frontiers:
             selected_node = min(frontiers, key=frontiers.get)
-            self.__passed_paths_of_frontier.update({
-                node: self.__passed_paths_of_frontier[selected_node].copy() + [node]
-                for node in self.__route[selected_node] if not (node in self.__passed_paths_of_frontier[selected_node])
-            })
-            frontiers.update({
-                node: self.h(node) for node in self.next_nodes(selected_node)
-                if not (node in self.__passed_paths_of_frontier[selected_node])
-            })
+            self.__passed_paths_of_frontier.update(
+                {
+                    node: self.__passed_paths_of_frontier[selected_node].copy() + [node]
+                    for node in self.__route[selected_node]
+                    if not (node in self.__passed_paths_of_frontier[selected_node])
+                }
+            )
+            frontiers.update(
+                {
+                    node: self.h(node)
+                    for node in self.next_nodes(selected_node)
+                    if not (node in self.__passed_paths_of_frontier[selected_node])
+                }
+            )
             del frontiers[selected_node]
             del self.__passed_paths_of_frontier[selected_node]
 
     def a_star_algorithm_search(self):
         frontiers: Dict[str, int] = {
-            frontier: self.h(frontier) + self.g(frontier) for frontier in self.next_nodes(self.start_node())}
+            frontier: self.h(frontier) + self.g(frontier)
+            for frontier in self.next_nodes(self.start_node())
+        }
         while not self.end_node() in frontiers:
             selected_node = min(frontiers, key=frontiers.get)
-            self.__passed_paths_of_frontier.update({
-                node: self.__passed_paths_of_frontier[selected_node].copy() + [node]
-                for node in self.__route[selected_node] if not (node in self.__passed_paths_of_frontier[selected_node])
-            })
-            frontiers.update({
-                node: self.h(node) + self.g(node) for node in self.next_nodes(selected_node)
-                if not (node in self.__passed_paths_of_frontier[selected_node])
-            })
+            self.__passed_paths_of_frontier.update(
+                {
+                    node: self.__passed_paths_of_frontier[selected_node].copy() + [node]
+                    for node in self.__route[selected_node]
+                    if not (node in self.__passed_paths_of_frontier[selected_node])
+                }
+            )
+            frontiers.update(
+                {
+                    node: self.h(node) + self.g(node)
+                    for node in self.next_nodes(selected_node)
+                    if not (node in self.__passed_paths_of_frontier[selected_node])
+                }
+            )
             del frontiers[selected_node]
             del self.__passed_paths_of_frontier[selected_node]
 
     def update_approximate_value_of_shortest_path(self, value: float):
-        """ h(a)の値を更新する関数 """
+        """h(a)の値を更新する関数"""
         self.__approximate_value_of_shortest_path["a"] = value
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     q = SearchQuestion()
 
     q.greed_search()

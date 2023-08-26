@@ -1,7 +1,10 @@
 import math
 
+
 class HumanData:
-    def __init__(self, id: int, age: str, salary: str, gender: str, like_trip: str, buy_wine: str):
+    def __init__(
+        self, id: int, age: str, salary: str, gender: str, like_trip: str, buy_wine: str
+    ):
         self.id: int = id
         self.age: bool = age == "高"
         self.is_high_salary: bool = salary == "高"
@@ -23,29 +26,101 @@ dataset = [
     HumanData(10, "高", "低", "女", "好き", "YES"),
 ]
 
-print("A: ",
-      len([data for data in dataset if
-           (data.age and data.is_buy_wine) or (not data.age and not data.is_buy_wine)]) / 10)
-print("B: ",
-      len([data for data in dataset if
-           (not data.age and data.is_buy_wine) or (data.age and not data.is_buy_wine)]) / 10)
-print("C: ",
-      len([data for data in dataset if
-           (data.is_high_salary and data.is_buy_wine) or (not data.is_high_salary and not data.is_buy_wine)]) / 10)
-print("D: ",
-      len([data for data in dataset if
-           (not data.is_high_salary and data.is_buy_wine) or (data.is_high_salary and not data.is_buy_wine)]) / 10)
-print("E: ",
-      len([data for data in dataset if
-           (data.is_like_trip and data.is_buy_wine) or (not data.is_like_trip and not data.is_buy_wine)]) / 10)
-print("F: ",
-      len([data for data in dataset if
-           (not data.is_like_trip and data.is_buy_wine) or (data.is_like_trip and not data.is_buy_wine)]) / 10)
-print("G: ",
-      len([data for data in dataset if
-           (data.is_male and data.is_buy_wine) or (not data.is_male and not data.is_buy_wine)]) / 10)
-print("H: ",
-      len([data for data in dataset if
-           (not data.is_male and data.is_buy_wine) or (data.is_male and not data.is_buy_wine)]) / 10)
+print(
+    "A: ",
+    len(
+        [
+            data
+            for data in dataset
+            if (data.age and data.is_buy_wine)
+            or (not data.age and not data.is_buy_wine)
+        ]
+    )
+    / 10,
+)
+print(
+    "B: ",
+    len(
+        [
+            data
+            for data in dataset
+            if (not data.age and data.is_buy_wine)
+            or (data.age and not data.is_buy_wine)
+        ]
+    )
+    / 10,
+)
+print(
+    "C: ",
+    len(
+        [
+            data
+            for data in dataset
+            if (data.is_high_salary and data.is_buy_wine)
+            or (not data.is_high_salary and not data.is_buy_wine)
+        ]
+    )
+    / 10,
+)
+print(
+    "D: ",
+    len(
+        [
+            data
+            for data in dataset
+            if (not data.is_high_salary and data.is_buy_wine)
+            or (data.is_high_salary and not data.is_buy_wine)
+        ]
+    )
+    / 10,
+)
+print(
+    "E: ",
+    len(
+        [
+            data
+            for data in dataset
+            if (data.is_like_trip and data.is_buy_wine)
+            or (not data.is_like_trip and not data.is_buy_wine)
+        ]
+    )
+    / 10,
+)
+print(
+    "F: ",
+    len(
+        [
+            data
+            for data in dataset
+            if (not data.is_like_trip and data.is_buy_wine)
+            or (data.is_like_trip and not data.is_buy_wine)
+        ]
+    )
+    / 10,
+)
+print(
+    "G: ",
+    len(
+        [
+            data
+            for data in dataset
+            if (data.is_male and data.is_buy_wine)
+            or (not data.is_male and not data.is_buy_wine)
+        ]
+    )
+    / 10,
+)
+print(
+    "H: ",
+    len(
+        [
+            data
+            for data in dataset
+            if (not data.is_male and data.is_buy_wine)
+            or (data.is_male and not data.is_buy_wine)
+        ]
+    )
+    / 10,
+)
 
-print(math.sqrt(0.7/0.3))
+print(math.sqrt(0.7 / 0.3))

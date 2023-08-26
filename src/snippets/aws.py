@@ -26,7 +26,12 @@ for name in function_names:
     res = subprocess.check_output(cmd)
     function_detail = json.loads(res.decode("utf-8"))
     if function_detail.get("Code"):
-        download_cmd = ["curl", "-o", f"{name}.zip", function_detail["Code"]["Location"]]
+        download_cmd = [
+            "curl",
+            "-o",
+            f"{name}.zip",
+            function_detail["Code"]["Location"],
+        ]
         subprocess.call(download_cmd)
         unzip_cmd = []
         # code_info = function_detail["Code"]
@@ -34,4 +39,3 @@ for name in function_names:
 
 # with open("src.json", "w") as f:
 #     f.write(str(code_src_data))
-

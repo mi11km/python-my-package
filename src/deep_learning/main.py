@@ -4,18 +4,20 @@ import numpy as np
 def step(x):
     return np.array(x > 0, dtype=int)
 
+
 def update_weight_parameters(weight, data, learning_rate):
     if step(np.dot(data[0], weight)) == data[1]:
         print("重み更新なし")
         return weight
     if data[1] == 0:
         print("偽陽性")
-        return weight-data[0]*learning_rate
+        return weight - data[0] * learning_rate
     if data[1] == 1:
         print("偽陰性")
-        return weight+data[0]*learning_rate
+        return weight + data[0] * learning_rate
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     a = 0.5
     w0 = np.array([-2, 2, 2])
 

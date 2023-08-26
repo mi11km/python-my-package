@@ -1,5 +1,6 @@
 # Educational DP Contest
 
+
 def a_frog1():
     n = int(input())
     h = list(map(int, input().split()))
@@ -8,14 +9,16 @@ def a_frog1():
         if i == 1:
             dp[i] = abs(h[i] - h[i - 1])
         else:
-            dp[i] = min(dp[i - 2] + abs(h[i] - h[i - 2]), dp[i - 1] + abs(h[i] - h[i - 1]))
+            dp[i] = min(
+                dp[i - 2] + abs(h[i] - h[i - 2]), dp[i - 1] + abs(h[i] - h[i - 1])
+            )
     print(dp[n - 1])
 
 
 def b_frog2():
     n, k = map(int, input().split())
     h = list(map(int, input().split()))
-    dp = [10 ** 9] * n
+    dp = [10**9] * n
     dp[0] = 0
     for i in range(n):
         for j in range(k + 1):

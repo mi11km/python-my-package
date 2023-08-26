@@ -12,12 +12,12 @@ def to_mesh_code(latitude: float, longitude: float, level: int) -> int:
         指定次の地域メッシュコード
     """
     if not 0 <= latitude < 66.66:
-        raise ValueError('the latitude is out of bound.')
+        raise ValueError("the latitude is out of bound.")
 
     if not 100 <= longitude < 180:
-        raise ValueError('the longitude is out of bound.')
+        raise ValueError("the longitude is out of bound.")
     if not (level in [3, 4, 5]):
-        raise ValueError('invalid argument, level must be one of 3, 4, 5')
+        raise ValueError("invalid argument, level must be one of 3, 4, 5")
 
     # (1)緯度より p, q, r, s, t を算出
     p, a = divmod(latitude * 60, 40)
@@ -37,6 +37,14 @@ def to_mesh_code(latitude: float, longitude: float, level: int) -> int:
     m = (s * 2) + (x + 1)
     n = (t * 2) + (y + 1)
 
-    mesh_code_str = str(int(p)) + str(int(u)) + str(int(q)) + str(int(v)) + str(int(r)) + str(int(w)) + str(
-        int(m)) + str(int(n))
-    return int(mesh_code_str[:level + 5])
+    mesh_code_str = (
+        str(int(p))
+        + str(int(u))
+        + str(int(q))
+        + str(int(v))
+        + str(int(r))
+        + str(int(w))
+        + str(int(m))
+        + str(int(n))
+    )
+    return int(mesh_code_str[: level + 5])

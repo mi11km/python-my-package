@@ -4,7 +4,7 @@ from typing import Any, Generator
 
 
 def is_prime(n: int) -> bool:
-    """ n が素数かどうか判定する関数 """
+    """n が素数かどうか判定する関数"""
     if n <= 1:
         return False
     if n == 2:
@@ -24,11 +24,11 @@ def load_numbers_sorted(txt: str) -> list[int]:
 
 
 def print_hello():
-    print('Hello, world!')
+    print("Hello, world!")
 
 
 def is_tweeted(string: str) -> str:
-    """ セイウチ演算子の例 """
+    """セイウチ演算子の例"""
     limit = 280
     if (diff := limit - len(string)) >= 0:
         return "A fitting tweet"
@@ -37,7 +37,7 @@ def is_tweeted(string: str) -> str:
 
 
 def document_it(func: callable) -> callable:
-    """"デコレータの例"""
+    """ "デコレータの例"""
 
     def new_func(*args, **kwargs):
         print("Running function: ", func.__name__)
@@ -51,11 +51,11 @@ def document_it(func: callable) -> callable:
 
 
 def square_it(func: callable) -> callable:
-    """"デコレータの例2"""
+    """ "デコレータの例2"""
 
     def new_func(*args, **kwargs):
         result = func(*args, **kwargs)
-        return result ** 2
+        return result**2
 
     return new_func
 
@@ -82,6 +82,7 @@ class Person:
     クラスの基礎
     クラス属性非公開化のためのプロパティ、マングリングなど
     """
+
     kind: str = "Primates"
     __count: int = 0
 
@@ -126,17 +127,18 @@ class AnimalClass:
 
 
 # 名前付きタプル：上記とほぼ一緒の意味
-AnimalClassTuple = namedtuple('AnimalClassTuple', 'name habitat teeth')
+AnimalClassTuple = namedtuple("AnimalClassTuple", "name habitat teeth")
 
 
 class OopsException(Exception):
-    """ 独自例外 """
+    """独自例外"""
+
     pass
 
 
 #  例外処理
 try:
-    raise OopsException('uuuuu')
+    raise OopsException("uuuuu")
 except OopsException as err:
     print(err)
 

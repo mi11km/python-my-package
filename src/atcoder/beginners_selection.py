@@ -119,7 +119,7 @@ def hakutyumu():
         else:
             for word in t_candidate:
                 if s.startswith(word):
-                    s = s[len(word):]
+                    s = s[len(word) :]
                     is_ok = True
                     break
         if not is_ok:
@@ -130,16 +130,16 @@ def hakutyumu():
 
 def traveling():
     n = int(input())
-    steps = [
-        [0, 0, 0]
-    ]
+    steps = [[0, 0, 0]]
     for i in range(n):
         steps.append(list(map(int, input().split())))
     is_ok = True
     for index, step in enumerate(steps):
         if index == 0:
             continue
-        needed_steps = abs(step[1] - steps[index - 1][1]) + abs(step[2] - steps[index - 1][2])
+        needed_steps = abs(step[1] - steps[index - 1][1]) + abs(
+            step[2] - steps[index - 1][2]
+        )
         time = abs(step[0] - steps[index - 1][0])
         if time < needed_steps:
             is_ok = False
@@ -153,5 +153,5 @@ def traveling():
         print("No")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     traveling()
