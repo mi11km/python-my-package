@@ -9,9 +9,8 @@ def a_frog1():
         if i == 1:
             dp[i] = abs(h[i] - h[i - 1])
         else:
-            dp[i] = min(
-                dp[i - 2] + abs(h[i] - h[i - 2]), dp[i - 1] + abs(h[i] - h[i - 1])
-            )
+            dp[i] = min(dp[i - 2] + abs(h[i] - h[i - 2]),
+                        dp[i - 1] + abs(h[i] - h[i - 1]))
     print(dp[n - 1])
 
 

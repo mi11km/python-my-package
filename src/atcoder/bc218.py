@@ -9,7 +9,8 @@ def a():
 
 def b():
     words = {
-        index: char for index, char in enumerate(list("abcdefghijklmnopqrstuvwxyz"))
+        index: char
+        for index, char in enumerate(list("abcdefghijklmnopqrstuvwxyz"))
     }
     p = list(map(int, input().split()))
     print("".join([words[i - 1] for i in p]))
@@ -17,8 +18,8 @@ def b():
 
 def c():
     n = int(input())
-    s = [list(map(str, input().split())) for _ in range(n)]
-    t = [list(map(str, input().split())) for _ in range(n)]
+    _ = [list(map(str, input().split())) for _ in range(n)]
+    _ = [list(map(str, input().split())) for _ in range(n)]
 
 
 c()

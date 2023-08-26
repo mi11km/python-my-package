@@ -1,9 +1,10 @@
 PORT=8080
 
-TEST_COMMAND=pytest tests -v
-FORMAT_COMMAND=black .
-LINT_COMMAND=flake8 --ignore=E501 src/ tests/
+FORMAT_COMMAND=yapf -i -r src/ tests/
 SORT_COMMAND=isort .
+TEST_COMMAND=pytest tests -v
+LINT_COMMAND=flake8 --max-line-length 119 src/ tests/
+
 
 setup-local:
 	asdf install
@@ -14,10 +15,12 @@ run-local:
 	poetry run python -m src
 
 test-local:
-	poetry run ${TEST_COMMAND} && \
-	poetry run ${FORMAT_COMMAND} && \
-	poetry run ${LINT_COMMAND} && \
-	poetry run ${SORT_COMMAND}
+	poetry run ${FORMAT_COMMAND} && echo "\n" && \
+	poetry run ${SORT_COMMAND}  && echo "===== Finish Format =====\n" && \
+	poetry run ${TEST_COMMAND} && echo "===== Finish Test =====\n" && \
+	poetry run ${LINT_COMMAND} && echo "===== Finish Lint =====\n"
+
+
 
 build-container:
 	docker build -t app . && docker image prune --force

@@ -20,7 +20,7 @@ def socket_server(protocol=socket.SOCK_DGRAM):
         data, client = server.recvfrom(max_size)
         print("At", datetime.now(), client, "said", data)
         server.sendto(b"Are you talking to me?", client)
-    elif protocol == socket.SOCK_STREAM:  #  TCP
+    elif protocol == socket.SOCK_STREAM:  # TCP
         server.listen(5)  # キューに5個クライアント接続が溜まったら新しい接続を拒否
         client, addr = server.accept()
         data = client.recv(max_size)

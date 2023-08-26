@@ -62,7 +62,7 @@ def some_sums():
 
 
 def card_game_for_two():
-    n = int(input())
+    _ = int(input())
     a = sorted(list(map(int, input().split())), reverse=True)
     print(sum(a[::2]) - sum(a[1::2]))
     # a = list(map(int, input().split()))
@@ -89,7 +89,7 @@ def kagami_mochi():
 
 def otoshidama():
     n, y = map(int, input().split())
-    num10000, num5000, num1000 = y // 10000, y // 5000, y // 1000
+    num10000, num5000, _ = y // 10000, y // 5000, y // 1000
     for i in range(num10000, -1, -1):
         if i > n:
             continue
@@ -119,7 +119,7 @@ def hakutyumu():
         else:
             for word in t_candidate:
                 if s.startswith(word):
-                    s = s[len(word) :]
+                    s = s[len(word):]
                     is_ok = True
                     break
         if not is_ok:
@@ -137,9 +137,9 @@ def traveling():
     for index, step in enumerate(steps):
         if index == 0:
             continue
-        needed_steps = abs(step[1] - steps[index - 1][1]) + abs(
-            step[2] - steps[index - 1][2]
-        )
+        needed_steps = abs(step[1] -
+                           steps[index - 1][1]) + abs(step[2] -
+                                                      steps[index - 1][2])
         time = abs(step[0] - steps[index - 1][0])
         if time < needed_steps:
             is_ok = False

@@ -4,6 +4,7 @@ import os
 
 # CSV: 区切り文字によってフィールドに区切られているファイル形式。スプレッドシートやDBとのデータ交換形式としてよく使われる。
 class CSVBasic:
+
     def __init__(self, file_store_path: str = "./assets/"):
         self.__file_path = file_store_path
 
@@ -49,11 +50,26 @@ class CSVBasic:
     @staticmethod
     def dummy_dict_data() -> list[dict]:
         return [
-            {"first": "Doctor", "second": "No"},
-            {"first": "Rosa", "second": "Klebb"},
-            {"first": "Mister", "second": "Big"},
-            {"first": "Auric", "second": "GoldFinger"},
-            {"first": "Ernst", "second": "Blofeld"},
+            {
+                "first": "Doctor",
+                "second": "No"
+            },
+            {
+                "first": "Rosa",
+                "second": "Klebb"
+            },
+            {
+                "first": "Mister",
+                "second": "Big"
+            },
+            {
+                "first": "Auric",
+                "second": "GoldFinger"
+            },
+            {
+                "first": "Ernst",
+                "second": "Blofeld"
+            },
         ]
 
 

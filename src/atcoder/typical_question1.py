@@ -1,3 +1,9 @@
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+
 def yokan_party():
     # step1: input
     n, length = map(int, input().split())
@@ -56,10 +62,9 @@ def encyclopedia_of_parentheses():
 
 
 # 何故か実行時エラーになる 再帰数の制限？
-def __depth_first_search(
-    road: dict[int, list[int]], root: int, counter: int, result: list
-):
-    if not root in road.keys():
+def __depth_first_search(road: dict[int, list[int]], root: int, counter: int,
+                         result: list):
+    if root not in road.keys():
         if result[0] < counter:
             result[0] = counter
     else:
@@ -68,12 +73,6 @@ def __depth_first_search(
         del next_road[root]
         for next_city in road[root]:
             __depth_first_search(next_road, next_city, counter, result)
-
-
-from collections import deque, defaultdict, Counter
-import sys
-
-input = sys.stdin.readline
 
 
 def longest_circular_road():
@@ -90,7 +89,7 @@ def longest_circular_road():
     #     if len(roads[root]) == 1:
     #         __depth_first_search(roads, root, 0, result)
     # print(result[0])
-    stack = deque([0, -1, 0])
+    _ = deque([0, -1, 0])
 
 
 if __name__ == "__main__":

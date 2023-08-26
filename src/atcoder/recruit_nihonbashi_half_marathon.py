@@ -1,4 +1,5 @@
 class Farm:
+
     def __init__(self, size: int, last_day: int):
         self.__last_day = last_day
         self.__farm = []
@@ -10,6 +11,7 @@ class Farm:
         self.__harvester = 0
 
     def __actions(self, fn: callable) -> callable:
+
         def __inner(*args, **kwargs):
             result = fn(*args, **kwargs)
             if self.__last_day == self.__now:
@@ -24,7 +26,7 @@ class Farm:
 
     @__actions
     def buy_harvester(self):
-        price = (self.__harvester + 1) ** 3
+        price = (self.__harvester + 1)**3
         if price > self.__funds:
             return
         self.__funds -= price

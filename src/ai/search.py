@@ -2,15 +2,41 @@ from typing import Dict, List
 
 
 class SearchQuestion:
+
     def __init__(self):
         self.__route = {
-            "S": {"a": 4, "b": 5},
-            "a": {"S": 4, "c": 5, "d": 4},
-            "b": {"S": 5, "c": 6, "e": 7},
-            "c": {"a": 5, "b": 6, "G": 5},
-            "d": {"a": 4, "G": 8},
-            "e": {"b": 7, "G": 7},
-            "G": {"c": 5, "d": 8, "e": 7},
+            "S": {
+                "a": 4,
+                "b": 5
+            },
+            "a": {
+                "S": 4,
+                "c": 5,
+                "d": 4
+            },
+            "b": {
+                "S": 5,
+                "c": 6,
+                "e": 7
+            },
+            "c": {
+                "a": 5,
+                "b": 6,
+                "G": 5
+            },
+            "d": {
+                "a": 4,
+                "G": 8
+            },
+            "e": {
+                "b": 7,
+                "G": 7
+            },
+            "G": {
+                "c": 5,
+                "d": 8,
+                "e": 7
+            },
         }
         self.__approximate_value_of_shortest_path = {
             "S": 11,
@@ -75,20 +101,17 @@ class SearchQuestion:
         }
         while not self.end_node() in frontiers:
             selected_node = min(frontiers, key=frontiers.get)
-            self.__passed_paths_of_frontier.update(
-                {
-                    node: self.__passed_paths_of_frontier[selected_node].copy() + [node]
-                    for node in self.__route[selected_node]
-                    if not (node in self.__passed_paths_of_frontier[selected_node])
-                }
-            )
-            frontiers.update(
-                {
-                    node: self.h(node)
-                    for node in self.next_nodes(selected_node)
-                    if not (node in self.__passed_paths_of_frontier[selected_node])
-                }
-            )
+            self.__passed_paths_of_frontier.update({
+                node:
+                self.__passed_paths_of_frontier[selected_node].copy() + [node]
+                for node in self.__route[selected_node]
+                if not (node in self.__passed_paths_of_frontier[selected_node])
+            })
+            frontiers.update({
+                node: self.h(node)
+                for node in self.next_nodes(selected_node)
+                if not (node in self.__passed_paths_of_frontier[selected_node])
+            })
             del frontiers[selected_node]
             del self.__passed_paths_of_frontier[selected_node]
 
@@ -99,20 +122,17 @@ class SearchQuestion:
         }
         while not self.end_node() in frontiers:
             selected_node = min(frontiers, key=frontiers.get)
-            self.__passed_paths_of_frontier.update(
-                {
-                    node: self.__passed_paths_of_frontier[selected_node].copy() + [node]
-                    for node in self.__route[selected_node]
-                    if not (node in self.__passed_paths_of_frontier[selected_node])
-                }
-            )
-            frontiers.update(
-                {
-                    node: self.h(node) + self.g(node)
-                    for node in self.next_nodes(selected_node)
-                    if not (node in self.__passed_paths_of_frontier[selected_node])
-                }
-            )
+            self.__passed_paths_of_frontier.update({
+                node:
+                self.__passed_paths_of_frontier[selected_node].copy() + [node]
+                for node in self.__route[selected_node]
+                if not (node in self.__passed_paths_of_frontier[selected_node])
+            })
+            frontiers.update({
+                node: self.h(node) + self.g(node)
+                for node in self.next_nodes(selected_node)
+                if not (node in self.__passed_paths_of_frontier[selected_node])
+            })
             del frontiers[selected_node]
             del self.__passed_paths_of_frontier[selected_node]
 

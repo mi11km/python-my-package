@@ -1,5 +1,6 @@
+from typing import List, Tuple
+
 import pytest
-from typing import Tuple, List
 
 from src.basic import basic
 
