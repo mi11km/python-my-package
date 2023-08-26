@@ -20,6 +20,12 @@ make run-local
 make test-local
 ```
 
+### add dependency
+```shell
+poetry add ${PACKAGE_NAME}
+```
+開発環境のみの依存パッケージインストールは`--group dev`をつける
+
 ## Development in container
 ### run
 ```shell
