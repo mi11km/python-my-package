@@ -1,12 +1,7 @@
 #!/usr/bin/env python
-from src.basic import persistent_storage
+import asyncio
 
-
-def main():
-    c = persistent_storage.CSVBasic()
-    print(c.read_csv_file("test.csv"))
-    print(c.read_csv_file("test.csv"))
-
+from src.basic import concurrency
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(concurrency.concurrent_coroutine_task_group())
