@@ -6,8 +6,11 @@ TEST_COMMAND=pytest tests -v
 LINT_COMMAND=flake8 --max-line-length 119 src/ tests/
 TYPE_CHECK_COMMAND=mypy .
 
+add-plugin:
+	- asdf plugin-add python https://github.com/danhper/asdf-python.git
+	- asdf plugin-add poetry https://github.com/asdf-community/asdf-poetry.git
 
-setup-local:
+setup-local: add-plugin
 	asdf install
 	poetry config virtualenvs.in-project true
 	poetry install
