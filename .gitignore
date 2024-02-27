@@ -145,3 +145,4 @@ cython_debug/
 
 # Personl
 src/coding_interviews/
+tmp/
