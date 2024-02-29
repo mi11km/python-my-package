@@ -1,6 +1,6 @@
 CONTAINER_TAG=python-app
 
-FORMAT_COMMAND=yapf -i -r src/ tests/
+FORMAT_COMMAND=black .
 SORT_COMMAND=isort .
 TEST_COMMAND=pytest tests -v
 LINT_COMMAND=flake8 --max-line-length 119 src/ tests/

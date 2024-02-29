@@ -37,6 +37,7 @@ def to_mesh_code(latitude: float, longitude: float, level: int) -> int:
     m = (s * 2) + (x + 1)
     n = (t * 2) + (y + 1)
 
-    mesh_code_str = (str(int(p)) + str(int(u)) + str(int(q)) + str(int(v)) +
-                     str(int(r)) + str(int(w)) + str(int(m)) + str(int(n)))
-    return int(mesh_code_str[:level + 5])
+    mesh_code_str = (
+        str(int(p)) + str(int(u)) + str(int(q)) + str(int(v)) + str(int(r)) + str(int(w)) + str(int(m)) + str(int(n))
+    )
+    return int(mesh_code_str[: level + 5])

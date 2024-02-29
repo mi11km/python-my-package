@@ -10,15 +10,15 @@ async def say_after(delay: float, what: str):
 async def sequential_coroutine():
     print(f"started at {time.strftime('%X')}")
 
-    await say_after(1, 'hello')
-    await say_after(2, 'world')
+    await say_after(1, "hello")
+    await say_after(2, "world")
 
     print(f"finished at {time.strftime('%X')}")
 
 
 async def concurrent_coroutine_task():
-    task1 = asyncio.create_task(say_after(1, 'hello'))
-    task2 = asyncio.create_task(say_after(2, 'world'))
+    task1 = asyncio.create_task(say_after(1, "hello"))
+    task2 = asyncio.create_task(say_after(2, "world"))
 
     print(f"started at {time.strftime('%X')}")
 
@@ -31,8 +31,8 @@ async def concurrent_coroutine_task():
 
 async def concurrent_coroutine_task_group():
     async with asyncio.TaskGroup() as tg:
-        tg.create_task(say_after(1, 'hello'))
-        tg.create_task(say_after(2, 'world'))
+        tg.create_task(say_after(1, "hello"))
+        tg.create_task(say_after(2, "world"))
 
         print(f"started at {time.strftime('%X')}")
 

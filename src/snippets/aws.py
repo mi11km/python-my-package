@@ -21,10 +21,7 @@ with open("env.json", "w") as f:
 
 # code_src_data = {}
 for name in function_names:
-    cmd = [
-        "aws", "lambda", "--profile", "jx", "get-function", "--function-name",
-        name
-    ]
+    cmd = ["aws", "lambda", "--profile", "jx", "get-function", "--function-name", name]
     res = subprocess.check_output(cmd)
     function_detail = json.loads(res.decode("utf-8"))
     if function_detail.get("Code"):

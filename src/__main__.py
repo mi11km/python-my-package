@@ -3,6 +3,7 @@ import datetime
 import gzip
 import os
 import shutil
+from decimal import Decimal
 
 import pandas as pd
 
@@ -30,7 +31,7 @@ name_map = {
         ["A", "2024/02/21 15:39", "2024/02/21 15:47"],
         ["D", "2024/02/21 15:48", "2024/02/21 15:52"],
         ["AD", "2024/02/21 15:52", "2024/02/21 15:53"],
-    ]
+    ],
 }
 python_datetime_format = "%Y/%m/%d %H:%M"
 date_format = "%Y:%m:%d:%H:%M:%S.%f"
@@ -48,15 +49,10 @@ def main():
 
     files = os.listdir(source_dir)
     files.sort()
-    kinds = [
-        f.replace(f"{device_name}-", "").replace(".ndjson", "") for f in files
-    ]
+    kinds = [f.replace(f"{device_name}-", "").replace(".ndjson", "") for f in files]
 
     for i in range(len(files)):
-        df = pd.read_json(source_dir + files[i],
-                          lines=True,
-                          dtype=str,
-                          convert_dates=False)
+        df = pd.read_json(source_dir + files[i], lines=True, dtype=str, convert_dates=False)
         # 時刻を変換
         # df["time"] = df["time"].str.replace(":", "/", n=2)
         # df["time"] = df["time"].str.replace(":", " ", n=1)
@@ -66,27 +62,33 @@ def main():
             print(files[i])
             for separation in separations:
                 # 分割
-                start = datetime.datetime.strptime(
-                    separation[1],
-                    python_datetime_format) - datetime.timedelta(
-                        minutes=1)  # 1分前から取得
-                end = datetime.datetime.strptime(
-                    separation[2],
-                    python_datetime_format) + datetime.timedelta(
-                        minutes=1)  # 1分後まで取得
+                start = datetime.datetime.strptime(separation[1], python_datetime_format)
+                end = datetime.datetime.strptime(separation[2], python_datetime_format)
                 df_separation = df[(df["time"] >= start) & (df["time"] <= end)]
 
                 # 時刻の形式を変換
-                df_separation["time"] = df_separation["time"].dt.strftime(
-                    date_format)
+                df_separation["time"] = df_separation["time"].dt.strftime(date_format)
                 df_separation["time"] = df_separation["time"].str[:-3]
+                df_separation = df_separation.astype(
+                    {
+                        "Acceleration_x": "float",
+                        "Acceleration_y": "float",
+                        "Acceleration_z": "float",
+                        "Gyro_x": "float",
+                        "Gyro_y": "float",
+                        "Gyro_z": "float",
+                        "altitude": "float",
+                        "latitude": "float",
+                        "longitude": "float",
+                        "horizontalAccuracy": "float",
+                        "verticalAccuracy": "float",
+                        "timeStamp": "float",
+                    }
+                )
 
                 # ファイル出力
-                out_filename = output_dir + device_name + "-" + kinds[
-                    i] + "-" + separation[0] + ".ndjson"
-                df_separation.to_json(out_filename,
-                                      orient="records",
-                                      lines=True)
+                out_filename = output_dir + device_name + "-" + kinds[i] + "-" + separation[0] + ".ndjson"
+                df_separation.to_json(out_filename, orient="records", lines=True)
         except KeyError:
             continue
 
