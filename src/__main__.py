@@ -3,7 +3,7 @@ import datetime
 import gzip
 import os
 import shutil
-from decimal import Decimal
+from decimal import Decimal, getcontext
 
 import pandas as pd
 
@@ -54,8 +54,9 @@ def main():
     for i in range(len(files)):
         df = pd.read_json(source_dir + files[i], lines=True, dtype=str, convert_dates=False)
         # 時刻を変換
-        # df["time"] = df["time"].str.replace(":", "/", n=2)
-        # df["time"] = df["time"].str.replace(":", " ", n=1)
+        if device_name == iPhone8 or device_name == iPhone12pro:
+            df["time"] = df["time"].str.replace(":", "/", n=2)
+            df["time"] = df["time"].str.replace(":", " ", n=1)
         df["time"] = pd.to_datetime(df["time"])
         try:
             separations = name_map[kinds[i]]
@@ -69,22 +70,23 @@ def main():
                 # 時刻の形式を変換
                 df_separation["time"] = df_separation["time"].dt.strftime(date_format)
                 df_separation["time"] = df_separation["time"].str[:-3]
-                df_separation = df_separation.astype(
-                    {
-                        "Acceleration_x": "float",
-                        "Acceleration_y": "float",
-                        "Acceleration_z": "float",
-                        "Gyro_x": "float",
-                        "Gyro_y": "float",
-                        "Gyro_z": "float",
-                        "altitude": "float",
-                        "latitude": "float",
-                        "longitude": "float",
-                        "horizontalAccuracy": "float",
-                        "verticalAccuracy": "float",
-                        "timeStamp": "float",
-                    }
-                )
+
+                # 型を変換
+                getcontext().prec = 17
+                keys = ["Acceleration_x",
+                        "Acceleration_y",
+                        "Acceleration_z",
+                        "Gyro_x",
+                        "Gyro_y",
+                        "Gyro_z",
+                        "altitude",
+                        "latitude",
+                        "longitude",
+                        "horizontalAccuracy",
+                        "verticalAccuracy",
+                        "timeStamp"]
+                for key in keys:
+                    df_separation[key] = df_separation[key].apply(Decimal)
 
                 # ファイル出力
                 out_filename = output_dir + device_name + "-" + kinds[i] + "-" + separation[0] + ".ndjson"
