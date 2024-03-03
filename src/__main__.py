@@ -73,18 +73,20 @@ def main():
 
                 # 型を変換
                 getcontext().prec = 17
-                keys = ["Acceleration_x",
-                        "Acceleration_y",
-                        "Acceleration_z",
-                        "Gyro_x",
-                        "Gyro_y",
-                        "Gyro_z",
-                        "altitude",
-                        "latitude",
-                        "longitude",
-                        "horizontalAccuracy",
-                        "verticalAccuracy",
-                        "timeStamp"]
+                keys = [
+                    "Acceleration_x",
+                    "Acceleration_y",
+                    "Acceleration_z",
+                    "Gyro_x",
+                    "Gyro_y",
+                    "Gyro_z",
+                    "altitude",
+                    "latitude",
+                    "longitude",
+                    "horizontalAccuracy",
+                    "verticalAccuracy",
+                    "timeStamp",
+                ]
                 for key in keys:
                     df_separation[key] = df_separation[key].apply(Decimal)
 
