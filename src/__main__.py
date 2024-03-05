@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import datetime
 import gzip
+import json
 import os
 import shutil
 from decimal import Decimal, getcontext
@@ -36,21 +37,82 @@ name_map = {
 python_datetime_format = "%Y/%m/%d %H:%M"
 date_format = "%Y:%m:%d:%H:%M:%S.%f"
 
+iPhone8 = "iPhone8"
+iPhone12pro = "iPhone12pro"
+GooglePixel4a = "GooglePixel4a"
+
 
 def main():
-    original_dir = "./tmp/original/"
-    iPhone8 = "iPhone8"
-    iPhone12pro = "iPhone12pro"
-    GooglePixel4a = "GooglePixel4a"
-
     device_name = GooglePixel4a
+
+    original_dir = "./tmp/original/"
     source_dir = f"./tmp/decompressedOriginal/{device_name}/"
     output_dir = f"./tmp/dist/{device_name}/"
+    source_android_dir = f"./tmp/decompressedOriginal/processed/{device_name}/"
 
+
+def process_android_data(source_dir: str, output_dir: str):
+    files = os.listdir(source_dir)
+    files.sort()
+    duration = 0.0333333333333
+    for file in files:
+        print(file)
+        with open(source_dir + file, "r") as f:
+            lines = f.read().strip().split("\n")
+            json_lines = [json.loads(line) for line in lines]
+
+        # 時刻のミリ秒を付与
+        lines = []
+        some_time_lines = [json_lines[0]]
+        for line in json_lines[1:]:
+            if line["time"] == some_time_lines[-1]["time"]:
+                some_time_lines.append(line)
+                continue
+            else:
+                diff = 30 - len(some_time_lines)
+                step = diff * duration if 0 <= diff <= 30 else 0
+                for some_time_line in some_time_lines:
+                    step += duration
+                    some_time_line["time"] = (some_time_line["time"] + str(step)[1:])
+                    lines.append(some_time_line)
+                some_time_lines = [line]
+
+        # 位置情報の時刻を補完
+        location_timestamp = to_unix_time(lines[0]["time"])
+        lines[0]["timeStamp"] = location_timestamp
+        previous_line = lines[0]
+        for i in range(1, len(lines)):
+            if is_same_location(previous_line, lines[i]):
+                lines[i]["timeStamp"] = location_timestamp
+            else:
+                location_timestamp = to_unix_time(lines[i]["time"])
+                lines[i]["timeStamp"] = location_timestamp
+            previous_line = lines[i]
+
+        # ファイル出力
+        out_filename = output_dir + file
+        with open(out_filename, "w") as f:
+            for line in lines:
+                f.write(json.dumps(line) + "\n")
+
+
+def is_same_location(location1, location2):
+    return (location1["altitude"] == location2["altitude"] and
+            location1["latitude"] == location2["latitude"] and
+            location1["longitude"] == location2["longitude"] and
+            location1["horizontalAccuracy"] == location2["horizontalAccuracy"] and
+            location1["verticalAccuracy"] == location2["verticalAccuracy"])
+
+
+def to_unix_time(time: str):
+    # 2024/02/21 13:42:50.43333333333290003
+    return datetime.datetime.strptime(time[:26], "%Y/%m/%d %H:%M:%S.%f").timestamp()
+
+
+def split_file(device_name: str, source_dir: str, output_dir: str):
     files = os.listdir(source_dir)
     files.sort()
     kinds = [f.replace(f"{device_name}-", "").replace(".ndjson", "") for f in files]
-
     for i in range(len(files)):
         df = pd.read_json(source_dir + files[i], lines=True, dtype=str, convert_dates=False)
         # 時刻を変換
