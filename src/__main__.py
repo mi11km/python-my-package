@@ -73,7 +73,7 @@ def process_android_data(source_dir: str, output_dir: str):
                 step = diff * duration if 0 <= diff <= 30 else 0
                 for some_time_line in some_time_lines:
                     step += duration
-                    some_time_line["time"] = (some_time_line["time"] + str(step)[1:])
+                    some_time_line["time"] = some_time_line["time"] + str(step)[1:]
                     lines.append(some_time_line)
                 some_time_lines = [line]
 
@@ -97,11 +97,13 @@ def process_android_data(source_dir: str, output_dir: str):
 
 
 def is_same_location(location1, location2):
-    return (location1["altitude"] == location2["altitude"] and
-            location1["latitude"] == location2["latitude"] and
-            location1["longitude"] == location2["longitude"] and
-            location1["horizontalAccuracy"] == location2["horizontalAccuracy"] and
-            location1["verticalAccuracy"] == location2["verticalAccuracy"])
+    return (
+        location1["altitude"] == location2["altitude"]
+        and location1["latitude"] == location2["latitude"]
+        and location1["longitude"] == location2["longitude"]
+        and location1["horizontalAccuracy"] == location2["horizontalAccuracy"]
+        and location1["verticalAccuracy"] == location2["verticalAccuracy"]
+    )
 
 
 def to_unix_time(time: str):
