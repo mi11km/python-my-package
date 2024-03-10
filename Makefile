@@ -16,7 +16,7 @@ setup-local: add-plugin
 	poetry install
 
 run-local:
-	poetry run python -m src
+	poetry run python __main__.py
 
 test-local:
 	poetry run ${FORMAT_COMMAND} && echo "\n" && \

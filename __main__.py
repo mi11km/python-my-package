@@ -43,12 +43,14 @@ GooglePixel4a = "GooglePixel4a"
 
 
 def main():
-    device_name = GooglePixel4a
-
     original_dir = "./tmp/original/"
-    source_dir = f"./tmp/decompressedOriginal/{device_name}/"
-    output_dir = f"./tmp/dist/{device_name}/"
-    source_android_dir = f"./tmp/decompressedOriginal/processed/{device_name}/"
+    source_dir = lambda d: f"./tmp/decompressedOriginal/{d}/"
+    output_dir = lambda d: f"./tmp/dist/{d}/"
+    source_android_dir = lambda d: f"./tmp/decompressedOriginal/processed/{d}/"
+
+    split_file(iPhone8, source_dir(iPhone8), output_dir(iPhone8))
+    split_file(iPhone12pro, source_dir(iPhone12pro), output_dir(iPhone12pro))
+    split_file(GooglePixel4a, source_android_dir(GooglePixel4a), output_dir(GooglePixel4a))
 
 
 def process_android_data(source_dir: str, output_dir: str):
@@ -98,11 +100,11 @@ def process_android_data(source_dir: str, output_dir: str):
 
 def is_same_location(location1, location2):
     return (
-        location1["altitude"] == location2["altitude"]
-        and location1["latitude"] == location2["latitude"]
-        and location1["longitude"] == location2["longitude"]
-        and location1["horizontalAccuracy"] == location2["horizontalAccuracy"]
-        and location1["verticalAccuracy"] == location2["verticalAccuracy"]
+            location1["altitude"] == location2["altitude"]
+            and location1["latitude"] == location2["latitude"]
+            and location1["longitude"] == location2["longitude"]
+            and location1["horizontalAccuracy"] == location2["horizontalAccuracy"]
+            and location1["verticalAccuracy"] == location2["verticalAccuracy"]
     )
 
 
